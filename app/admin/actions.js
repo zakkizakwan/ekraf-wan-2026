@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { buatKoneksiSesi } from "@/lib/supabase/server";
 
 export async function masuk(prevState, formData) {
@@ -164,4 +165,34 @@ export async function ubahProduk(prevStateOrFormData, maybeFormData) {
   }
 
   redirect("/admin");
+}
+
+export async function hapusProduk(formData) {
+  const id = formData?.get?.("id")?.toString();
+
+  if (!id) {
+    return { error: "ID produk tidak valid." };
+  }
+
+  const supabase = await buatKoneksiSesi();
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+
+  if (userError || !user) {
+    return { error: "Akses ditolak. Anda harus login terlebih dahulu." };
+  }
+
+  const { error: deleteError } = await supabase
+    .from("produk")
+    .delete()
+    .eq("id", id);
+
+  if (deleteError) {
+    return { error: deleteError.message || "Gagal menghapus produk." };
+  }
+
+  revalidatePath("/admin");
+  revalidatePath("/");
 }
