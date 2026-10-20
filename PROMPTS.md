@@ -52,4 +52,22 @@ Catat prompt penting selama membangun aplikasi: apa yang kamu minta, hasilnya, d
 
 ## Debugging dan fitur bonus
 
-Tambahkan bagian baru untuk setiap error yang kamu perbaiki atau fitur bonus yang kamu kerjakan.
+### US-07 List Produk Admin
+- **Fitur:** Menampilkan seluruh daftar produk dari Supabase di `/admin`.
+- **Hasil:** Berhasil menampilkan produk beserta foto, harga, dan kategori.
+
+### US-08 Tambah Produk Baru
+- **Fitur:** Form tambah produk admin dengan proteksi otentikasi server.
+- **Hasil:** Produk baru berhasil ditambahkan dan langsung muncul di list admin serta katalog.
+
+### US-09 Ubah Data Produk
+- **Fitur:** Edit data produk yang sudah ada di `/admin/produk/[id]/ubah`.
+- **Hasil:** Form terisi data awal dan perubahan tersimpan ke Supabase.
+
+### US-10 Hapus Produk
+- **Fitur:** Hapus produk dengan dialog konfirmasi `window.confirm` dan server action.
+- **Hasil:** Produk berhasil dihapus dari tabel produk di database.
+
+### US-11 Filter Kategori dan Pencarian Produk
+- **Fitur:** Pencarian nama produk dengan `ilike` dan filter kategori dinamis di beranda katalog.
+- **Hasil:** Pengunjung dapat mencari nama produk serta menyaring berdasarkan kategori produk secara langsung di sisi server.
