@@ -92,6 +92,10 @@ Catat prompt penting selama membangun aplikasi: apa yang kamu minta, hasilnya, d
 - **Fitur:** Menampilkan produk dari kategori yang sama di halaman detail produk dari database (mengecualikan produk yang sedang aktif).
 - **Hasil:** Bagian "Produk terkait" otomatis muncul di bawah detail produk menggunakan komponen `KartuProduk`.
 
+### US-21 Keranjang Belanja dan Pesan Semua via WhatsApp
+- **Fitur:** Context keranjang belanja tersimpan di `localStorage`, tombol "+ Keranjang" di kartu & detail produk, pengatur kuantitas & hapus item, serta tombol satu klik kirim seluruh isi keranjang dalam format rapi via WhatsApp.
+- **Hasil:** Pengunjung dapat memesan beberapa produk sekaligus dalam satu transaksi WhatsApp ke nomor toko di `lib/toko.js`.
+
 ### US-22 Halaman Tentang dan Kontak Toko
 - **Fitur:** Membuat halaman profil `/tentang` berisi deskripsi usaha, alamat, jam operasional, dan tombol kontak WhatsApp, serta menautkannya di Header & Footer.
 - **Hasil:** Halaman `/tentang` dapat diakses dari navigasi atas maupun footer dengan informasi identitas toko yang lengkap.

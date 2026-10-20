@@ -3,8 +3,10 @@
 import { useState } from "react";
 import { toko } from "@/lib/toko";
 import { formatRupiah } from "@/lib/format";
+import { useKeranjang } from "@/components/KeranjangBelanja";
 
 export default function TombolWhatsApp({ produk }) {
+  const { tambahItem } = useKeranjang();
   const [jumlah, setJumlah] = useState(1);
   const [varian, setVarian] = useState("");
 
@@ -72,14 +74,23 @@ export default function TombolWhatsApp({ produk }) {
         </div>
       </div>
 
-      <a
-        href={urlWhatsApp}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex w-full items-center justify-center rounded-lg bg-utama px-5 py-3 font-semibold text-white hover:bg-utama-gelap sm:w-auto"
-      >
-        Pesan via WhatsApp
-      </a>
+      <div className="flex flex-col gap-2 sm:flex-row">
+        <button
+          type="button"
+          onClick={() => tambahItem(produk, jumlah)}
+          className="inline-flex w-full items-center justify-center gap-2 rounded-lg border-2 border-utama bg-latar px-5 py-3 font-semibold text-utama hover:bg-permukaan sm:flex-1"
+        >
+          <span>🛒</span> Tambah ke Keranjang
+        </button>
+        <a
+          href={urlWhatsApp}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex w-full items-center justify-center rounded-lg bg-utama px-5 py-3 font-semibold text-white hover:bg-utama-gelap sm:flex-1"
+        >
+          Pesan via WhatsApp
+        </a>
+      </div>
     </div>
   );
 }
