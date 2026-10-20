@@ -83,3 +83,7 @@ Catat prompt penting selama membangun aplikasi: apa yang kamu minta, hasilnya, d
 ### US-15 Urutkan Produk
 - **Fitur:** Pilihan urutan produk (Termurah, Termahal, Terbaru) dengan dropdown di katalog.
 - **Hasil:** Pengurutan diterapkan langsung pada query database Supabase (`order('harga', { ascending })`).
+
+### US-17 Produk Terkait di Halaman Detail
+- **Fitur:** Menampilkan produk dari kategori yang sama di halaman detail produk dari database (mengecualikan produk yang sedang aktif).
+- **Hasil:** Bagian "Produk terkait" otomatis muncul di bawah detail produk menggunakan komponen `KartuProduk`.
