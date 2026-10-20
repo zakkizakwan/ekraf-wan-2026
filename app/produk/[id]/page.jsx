@@ -5,6 +5,8 @@ import TombolBagikan from "@/components/TombolBagikan";
 import { CatatRiwayatLihat } from "@/components/TerakhirDilihat";
 import { TombolFavorit } from "@/components/FavoritContext";
 import KartuProduk from "@/components/KartuProduk";
+import GaleriFotoProduk from "@/components/GaleriFotoProduk";
+import BagianUlasanProduk from "@/components/BagianUlasanProduk";
 import { buatKoneksiServer } from "@/lib/supabase/server";
 import { formatRupiah } from "@/lib/format";
 
@@ -72,18 +74,67 @@ export default async function HalamanDetailProduk({ params }) {
     produkTerkait = terkait || [];
   }
 
+  // US-38: Ambil ulasan dari database (jika tabel ulasan ada)
+  let daftarUlasan = [];
+  try {
+    const { data: ulasanData } = await supabase
+      .from("ulasan")
+      .select("*")
+      .eq("produk_id", id)
+      .eq("is_hidden", false)
+      .order("id", { ascending: false });
+    daftarUlasan = ulasanData || [];
+  } catch {
+    // Abaikan jika tabel ulasan belum dibuat
+  }
+
+  // US-19 & US-20: Cek stok, diskon, dan badge
+  const isHabis = produk.stok !== undefined && produk.stok !== null && Number(produk.stok) <= 0;
+  const hargaDiskon = produk.harga_diskon ? Number(produk.harga_diskon) : null;
+  const punyaDiskon = hargaDiskon !== null && hargaDiskon > 0 && hargaDiskon < produk.harga;
+  const hargaTampil = punyaDiskon ? hargaDiskon : produk.harga;
+  const dibuatBaru = produk.created_at && (new Date() - new Date(produk.created_at)) < (1000 * 60 * 60 * 24 * 7);
+  const badgeBaru = produk.is_baru || dibuatBaru;
+  const badgeTerlaris = Boolean(produk.is_terlaris);
+
   return (
     <div className="flex flex-col gap-12 py-8 md:py-12">
       <article className="grid gap-8 md:grid-cols-2">
-        <img
-          src={produk.foto_url}
-          alt={produk.nama}
-          className="aspect-square w-full rounded-2xl border border-garis bg-permukaan object-cover"
+        {/* US-18: Galeri foto produk */}
+        <GaleriFotoProduk
+          fotoUtama={produk.foto_url}
+          daftarFoto={produk.foto_lain || []}
+          namaProduk={produk.nama}
         />
         <div className="flex flex-col gap-4">
           <Link href="/" className="text-sm text-teks-lembut underline underline-offset-4 hover:text-utama">
             Kembali ke katalog
           </Link>
+
+          {/* Badges */}
+          <div className="flex flex-wrap items-center gap-2">
+            {isHabis && (
+              <span className="rounded-md bg-merah px-2.5 py-0.5 text-xs font-bold text-white shadow-xs">
+                Stok Habis
+              </span>
+            )}
+            {punyaDiskon && (
+              <span className="rounded-md bg-amber-500 px-2.5 py-0.5 text-xs font-bold text-white shadow-xs">
+                Promo Diskon
+              </span>
+            )}
+            {!isHabis && badgeTerlaris && (
+              <span className="rounded-md bg-utama px-2.5 py-0.5 text-xs font-bold text-white shadow-xs">
+                Terlaris
+              </span>
+            )}
+            {!isHabis && !badgeTerlaris && badgeBaru && (
+              <span className="rounded-md bg-emerald-600 px-2.5 py-0.5 text-xs font-bold text-white shadow-xs">
+                Produk Baru
+              </span>
+            )}
+          </div>
+
           <div className="flex items-center justify-between">
             {produk.kategori ? (
               <Link
@@ -102,17 +153,30 @@ export default async function HalamanDetailProduk({ params }) {
             </div>
           </div>
           <h1 className="text-3xl font-extrabold leading-tight tracking-tight">{produk.nama}</h1>
-          <p className="self-start rounded-md bg-harga-latar px-3 py-1 text-xl font-bold text-harga">
-            {formatRupiah(produk.harga)}
-          </p>
+          
+          {/* US-20: Harga tampil & harga coret jika ada diskon */}
+          <div className="flex items-baseline gap-3">
+            <span className="rounded-md bg-harga-latar px-3 py-1 text-2xl font-bold text-harga">
+              {formatRupiah(hargaTampil)}
+            </span>
+            {punyaDiskon && (
+              <span className="text-base text-teks-lembut line-through">
+                {formatRupiah(produk.harga)}
+              </span>
+            )}
+          </div>
+
           <p className="max-w-prose leading-relaxed text-teks-lembut">{produk.deskripsi}</p>
-          <TombolWhatsApp produk={produk} />
+          <TombolWhatsApp produk={{ ...produk, harga: hargaTampil }} />
           {/* US-23: Tombol Bagikan / Salin link */}
           <TombolBagikan namaProduk={produk.nama} />
           {/* US-36: Catat riwayat produk yang sedang dilihat */}
           <CatatRiwayatLihat produk={produk} />
         </div>
       </article>
+
+      {/* US-38: Bagian Ulasan dan Rating Pembeli */}
+      <BagianUlasanProduk produkId={produk.id} daftarUlasan={daftarUlasan} />
 
       {/* US-17: Bagian Produk Terkait */}
       {produkTerkait.length > 0 && (

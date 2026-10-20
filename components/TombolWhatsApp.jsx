@@ -20,8 +20,28 @@ export default function TombolWhatsApp({ produk }) {
     rincianPesanan += ` - Pilihan varian: ${varian.trim()}`;
   }
 
-  const pesan = `Halo, saya ingin memesan ${rincianPesanan}.`;
-  const urlWhatsApp = `https://wa.me/${toko.nomorWhatsApp}?text=${encodeURIComponent(pesan)}`;
+  const isHabis = produk?.stok !== undefined && produk?.stok !== null && Number(produk.stok) <= 0;
+
+  if (isHabis) {
+    return (
+      <div className="flex flex-col gap-3 rounded-xl border border-merah/20 bg-merah-latar p-4 text-center">
+        <span className="text-sm font-bold text-merah">
+          ⚠️ Maaf, stok produk ini saat ini sedang habis.
+        </span>
+        <p className="text-xs text-teks-lembut">
+          Pemesanan dinonaktifkan sementara sampai stok tersedia kembali.
+        </p>
+      </div>
+    );
+  }
+
+  const catatKlik = () => {
+    try {
+      if (produk?.id) {
+        fetch(`/api/klik-wa?produk_id=${produk.id}`, { method: "POST" }).catch(() => {});
+      }
+    } catch {}
+  };
 
   return (
     <div className="flex flex-col gap-4">
@@ -86,6 +106,7 @@ export default function TombolWhatsApp({ produk }) {
           href={urlWhatsApp}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={catatKlik}
           className="inline-flex w-full items-center justify-center rounded-lg bg-utama px-5 py-3 font-semibold text-white hover:bg-utama-gelap sm:flex-1"
         >
           Pesan via WhatsApp

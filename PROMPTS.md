@@ -151,3 +151,27 @@ Catat prompt penting selama membangun aplikasi: apa yang kamu minta, hasilnya, d
 ### US-49 Halaman Khusus Per Kategori
 - **Fitur:** Membuat rute dinamis `/kategori/[slug]` yang mengambil produk sesuai kategori dari database Supabase, menangani kategori yang tidak ada dengan tampilan `notFound()`, serta menautkan teks kategori pada kartu produk dan halaman detail langsung ke halaman kategori tersebut. Rute kategori dinamis juga otomatis disertakan di `sitemap.xml`.
 - **Hasil:** Pengunjung dapat membuka tautan kategori yang rapi, membagikan link kategori spesifik, dan menjelajahi produk dalam kategori terkait.
+
+### US-18 Galeri Beberapa Foto Produk
+- **Fitur:** Komponen `GaleriFotoProduk` interaktif di halaman detail dengan preview foto utama, baris thumbnail foto kecil, dan kemampuan berganti foto secara mulus tanpa mengganggu produk dengan satu foto.
+- **Hasil:** Pengunjung dapat melihat bentuk produk dari berbagai sudut foto dengan interaksi thumbnail responsif.
+
+### US-19 Status Stok Produk
+- **Fitur:** Deteksi stok produk di kartu katalog dan halaman detail. Produk yang stoknya habis otomatis diberi penanda badge "Habis", foto dibuat redup, tombol tambah keranjang dan tombol pesan WhatsApp dinonaktifkan dengan pesan peringatan yang ramah.
+- **Hasil:** Pengunjung mengetahui ketersediaan produk dan dicegah memesan produk yang sedang habis.
+
+### US-20 Harga Coret dan Badge Promo
+- **Fitur:** Tampilan harga promo diskon dengan harga asli yang dicoret di kartu produk dan halaman detail, disertai badge "Diskon", badge "Terlaris", dan badge "Baru" otomatis berdasarkan tanggal dibuat atau atribut produk.
+- **Hasil:** Penawaran menarik dan status produk tampil mencolok dan menarik perhatian pembeli.
+
+### US-38 Ulasan dan Rating Pembeli
+- **Fitur:** Form ulasan interaktif dengan pilihan rating bintang 1 sampai 5, input nama, komentar, serta proteksi spam honeypot dan validasi server action. Menampilkan rata-rata nilai bintang dan daftar testimoni pembeli di halaman detail produk.
+- **Hasil:** Pembeli dapat membagikan rating dan testimoni mereka secara aman tanpa spam bot.
+
+### US-40 Catat Klik Pesan WhatsApp
+- **Fitur:** Endpoint Route Handler `/api/klik-wa` yang mencatat setiap kali pengunjung menekan tombol pemesanan WhatsApp tanpa menyimpan data pribadi (GDPR/privacy friendly) dan tanpa memperlambat alur pembukaan WhatsApp.
+- **Hasil:** Setiap klik order tersimpan di database untuk analitik popularitas produk.
+
+### US-41 Produk Terlaris di Dashboard Admin
+- **Fitur:** Menghitung akumulasi klik pesan WhatsApp dari database dan menampilkan kartu 5 produk teratas (Top 5) yang paling sering dipesan pengunjung di dashboard `/admin`.
+- **Hasil:** Pemilik toko dapat melihat ranking produk andalan yang paling diminati pembeli secara langsung di panel admin.

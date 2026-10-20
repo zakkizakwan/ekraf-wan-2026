@@ -16,6 +16,7 @@ export default async function HalamanAdmin({ searchParams }) {
   let pesanError = null;
   let totalData = 0;
   let totalHalaman = 1;
+  let produkTerlarisList = [];
 
   try {
     const supabase = buatKoneksiServer();
@@ -45,6 +46,45 @@ export default async function HalamanAdmin({ searchParams }) {
       daftarProduk = data || [];
       totalData = count || 0;
       totalHalaman = Math.max(1, Math.ceil(totalData / perHalaman));
+    }
+
+    // US-41: Produk terlaris di dashboard dari pencatatan klik
+    try {
+      const { data: klikData } = await supabase
+        .from("klik_whatsapp")
+        .select("produk_id");
+
+      if (klikData && klikData.length > 0) {
+        const hitungan = {};
+        for (const item of klikData) {
+          hitungan[item.produk_id] = (hitungan[item.produk_id] || 0) + 1;
+        }
+        const topIds = Object.entries(hitungan)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 5);
+
+        if (topIds.length > 0) {
+          const ids = topIds.map(([id]) => parseInt(id, 10));
+          const { data: detailTop } = await supabase
+            .from("produk")
+            .select("id, nama, harga")
+            .in("id", ids);
+
+          if (detailTop) {
+            produkTerlarisList = topIds.map(([id, totalKlik]) => {
+              const item = detailTop.find((p) => String(p.id) === String(id));
+              return {
+                id,
+                nama: item?.nama || `Produk #${id}`,
+                harga: item?.harga || 0,
+                totalKlik,
+              };
+            });
+          }
+        }
+      }
+    } catch {
+      // Abaikan jika tabel klik_whatsapp belum ada
     }
   } catch (err) {
     pesanError = err.message || "Gagal mengambil data produk dari database.";
@@ -79,6 +119,32 @@ export default async function HalamanAdmin({ searchParams }) {
             </div>
           ))}
         </div>
+      </section>
+
+      {/* US-41: 5 Produk Terlaris (Klik Pesan Terbanyak) */}
+      <section className="flex flex-col gap-3 rounded-2xl border border-garis bg-permukaan p-4">
+        <h2 className="text-sm font-bold uppercase tracking-wider text-teks-lembut">
+          Top 5 Produk Paling Sering Dipesan (WhatsApp)
+        </h2>
+        {produkTerlarisList.length === 0 ? (
+          <p className="text-xs text-teks-lembut py-2">
+            Belum ada data pemesanan WhatsApp yang tercatat.
+          </p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-5 gap-3">
+            {produkTerlarisList.map((item, idx) => (
+              <div key={item.id} className="rounded-xl border border-garis bg-latar p-3 flex flex-col justify-between">
+                <div>
+                  <span className="text-xs font-bold text-utama">#{idx + 1}</span>
+                  <p className="text-sm font-semibold text-teks line-clamp-1">{item.nama}</p>
+                </div>
+                <p className="mt-2 text-xs font-medium text-teks-lembut">
+                  <span className="font-bold text-teks">{item.totalKlik}</span> klik pesan
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Header Bar Daftar Produk & Tombol Aksi */}
