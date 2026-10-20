@@ -103,3 +103,7 @@ Catat prompt penting selama membangun aplikasi: apa yang kamu minta, hasilnya, d
 ### US-26 Metadata SEO dan Open Graph
 - **Fitur:** Implementasi `generateMetadata` dinamis di `app/produk/[id]/page.jsx` untuk judul, deskripsi, serta Open Graph meta tags (og:title, og:description, og:image).
 - **Hasil:** Setiap halaman detail produk memiliki metadata SEO dan preview kartu Open Graph yang sesuai dengan data produk dari database.
+
+### US-27 sitemap.xml dan robots.txt
+- **Fitur:** Membuat `app/sitemap.js` yang menarik seluruh URL produk dari database Supabase secara dinamis, dan `app/robots.js` yang valid mengarah ke sitemap serta memblokir perayapan bot ke rute `/admin/`.
+- **Hasil:** Rute `/sitemap.xml` dan `/robots.txt` aktif secara otomatis dan valid.
