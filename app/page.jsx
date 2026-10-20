@@ -9,10 +9,14 @@ export default async function HalamanKatalog({ searchParams }) {
   const kataKunci = (params?.q || "").trim();
   const kategoriAktif = (params?.kategori || "").trim();
   const urutan = (params?.urut || "terbaru").trim();
+  const halamanSaatIni = Math.max(1, parseInt(params?.hal || "1", 10) || 1);
+  const perHalaman = 6;
 
   let daftarProduk = [];
   let daftarKategori = [];
   let pesanError = null;
+  let totalData = 0;
+  let totalHalaman = 1;
 
   try {
     const supabase = buatKoneksiServer();
@@ -28,8 +32,8 @@ export default async function HalamanKatalog({ searchParams }) {
       );
     }
 
-    // Query daftar produk dengan filter jika ada
-    let query = supabase.from("produk").select("*");
+    // Query daftar produk dengan filter & count: "exact"
+    let query = supabase.from("produk").select("*", { count: "exact" });
 
     if (kategoriAktif) {
       query = query.eq("kategori", kategoriAktif);
@@ -49,12 +53,19 @@ export default async function HalamanKatalog({ searchParams }) {
       query = query.order("id", { ascending: false });
     }
 
-    const { data, error } = await query;
+    // US-16: Paginasi di tingkat database (range)
+    const dari = (halamanSaatIni - 1) * perHalaman;
+    const sampai = dari + perHalaman - 1;
+    query = query.range(dari, sampai);
+
+    const { data, error, count } = await query;
 
     if (error) {
       pesanError = error.message;
     } else {
       daftarProduk = data || [];
+      totalData = count || 0;
+      totalHalaman = Math.max(1, Math.ceil(totalData / perHalaman));
     }
   } catch (err) {
     pesanError = err.message || "Gagal mengambil data dari database.";
@@ -172,11 +183,70 @@ export default async function HalamanKatalog({ searchParams }) {
             )}
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-            {daftarProduk.map((produk) => (
-              <KartuProduk key={produk.id} produk={produk} />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+              {daftarProduk.map((produk) => (
+                <KartuProduk key={produk.id} produk={produk} />
+              ))}
+            </div>
+
+            {/* US-16: Kontrol Navigasi Paginasi */}
+            {totalHalaman > 1 && (
+              <div className="mt-4 flex flex-wrap items-center justify-center gap-2 border-t border-garis pt-6">
+                {halamanSaatIni > 1 && (
+                  <a
+                    href={`/?${new URLSearchParams({
+                      ...(kataKunci ? { q: kataKunci } : {}),
+                      ...(kategoriAktif ? { kategori: kategoriAktif } : {}),
+                      ...(urutan !== "terbaru" ? { urut: urutan } : {}),
+                      hal: String(halamanSaatIni - 1),
+                    }).toString()}`}
+                    className="rounded-xl border border-garis bg-permukaan px-3 py-1.5 text-xs font-semibold text-teks hover:border-utama hover:text-utama"
+                  >
+                    ← Sebelumnya
+                  </a>
+                )}
+
+                <div className="flex items-center gap-1">
+                  {Array.from({ length: totalHalaman }, (_, i) => i + 1).map((nomor) => {
+                    const isAktif = nomor === halamanSaatIni;
+                    return (
+                      <a
+                        key={nomor}
+                        href={`/?${new URLSearchParams({
+                          ...(kataKunci ? { q: kataKunci } : {}),
+                          ...(kategoriAktif ? { kategori: kategoriAktif } : {}),
+                          ...(urutan !== "terbaru" ? { urut: urutan } : {}),
+                          hal: String(nomor),
+                        }).toString()}`}
+                        className={`flex h-8 w-8 items-center justify-center rounded-lg text-xs font-bold transition-colors ${
+                          isAktif
+                            ? "bg-utama text-white"
+                            : "border border-garis bg-permukaan text-teks-lembut hover:border-utama hover:text-utama"
+                        }`}
+                      >
+                        {nomor}
+                      </a>
+                    );
+                  })}
+                </div>
+
+                {halamanSaatIni < totalHalaman && (
+                  <a
+                    href={`/?${new URLSearchParams({
+                      ...(kataKunci ? { q: kataKunci } : {}),
+                      ...(kategoriAktif ? { kategori: kategoriAktif } : {}),
+                      ...(urutan !== "terbaru" ? { urut: urutan } : {}),
+                      hal: String(halamanSaatIni + 1),
+                    }).toString()}`}
+                    className="rounded-xl border border-garis bg-permukaan px-3 py-1.5 text-xs font-semibold text-teks hover:border-utama hover:text-utama"
+                  >
+                    Selanjutnya →
+                  </a>
+                )}
+              </div>
+            )}
+          </>
         )}
       </section>
     </>
