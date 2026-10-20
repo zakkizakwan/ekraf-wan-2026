@@ -132,6 +132,10 @@ Catat prompt penting selama membangun aplikasi: apa yang kamu minta, hasilnya, d
 - **Fitur:** Menambahkan form pencarian produk (`ilike`) dan paginasi query Supabase (`.range()`) di `/admin` dengan parameter `q` dan `hal` di URL.
 - **Hasil:** Admin dapat menyaring produk secara cepat dan menavigasi halaman dengan state URL yang tetap ada setelah refresh.
 
+### US-34 Validasi Form Admin di Server
+- **Fitur:** Server Action memvalidasi bahwa nama produk wajib diisi dan harga harus berupa angka positif, menghasilkan pesan error spesifik per-field di bawah input, dan mempertahankan nilai input yang sudah diketik jika terjadi error.
+- **Hasil:** Form tambah dan ubah produk admin aman dari input data rusak, dan admin langsung melihat field mana yang perlu diperbaiki tanpa kehilangan data yang sudah diisi.
+
 ### US-35 Ekspor Produk ke CSV
 - **Fitur:** Endpoint Route Handler `/admin/produk/ekspor` di server yang memeriksa otentikasi login admin, meng-escape karakter khusus koma/kutip, dan mengunduh seluruh produk dalam format `.csv`.
 - **Hasil:** Tombol "Ekspor CSV" di halaman admin dapat mengunduh data katalog produk yang siap dibuka di Microsoft Excel atau Google Sheets.

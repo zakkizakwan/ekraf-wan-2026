@@ -76,19 +76,32 @@ export async function gantiPassword(prevState, formData) {
 export async function tambahProduk(prevState, formData) {
   const data = formData instanceof FormData ? formData : prevState;
   const nama = data?.get?.("nama")?.toString()?.trim() || "";
-  const hargaRaw = data?.get?.("harga")?.toString() || "0";
-  const harga = parseInt(hargaRaw, 10);
+  const hargaRaw = data?.get?.("harga")?.toString()?.trim() || "";
   const kategori = data?.get?.("kategori")?.toString()?.trim() || "";
   const foto_url = data?.get?.("foto_url")?.toString()?.trim() || "";
   const deskripsi = data?.get?.("deskripsi")?.toString()?.trim() || "";
 
+  const values = { nama, harga: hargaRaw, kategori, foto_url, deskripsi };
+  const fieldErrors = {};
+
   if (!nama) {
-    return { error: "Nama produk wajib diisi." };
+    fieldErrors.nama = "Nama produk wajib diisi.";
   }
 
-  if (isNaN(harga) || harga < 0) {
-    return { error: "Harga harus berupa angka positif." };
+  const hargaNum = Number(hargaRaw);
+  if (!hargaRaw || isNaN(hargaNum) || hargaNum < 0) {
+    fieldErrors.harga = "Harga harus berupa angka positif.";
   }
+
+  if (Object.keys(fieldErrors).length > 0) {
+    return {
+      error: "Terdapat data yang belum sesuai. Silakan periksa formulir.",
+      errors: fieldErrors,
+      values,
+    };
+  }
+
+  const harga = Math.floor(hargaNum);
 
   const supabase = await buatKoneksiSesi();
   const {
@@ -97,7 +110,7 @@ export async function tambahProduk(prevState, formData) {
   } = await supabase.auth.getUser();
 
   if (userError || !user) {
-    return { error: "Akses ditolak. Anda harus login terlebih dahulu." };
+    return { error: "Akses ditolak. Anda harus login terlebih dahulu.", values };
   }
 
   const { error: insertError } = await supabase.from("produk").insert([
@@ -111,7 +124,7 @@ export async function tambahProduk(prevState, formData) {
   ]);
 
   if (insertError) {
-    return { error: insertError.message || "Gagal menyimpan produk." };
+    return { error: insertError.message || "Gagal menyimpan produk.", values };
   }
 
   redirect("/admin");
@@ -121,23 +134,36 @@ export async function ubahProduk(prevStateOrFormData, maybeFormData) {
   const data = maybeFormData instanceof FormData ? maybeFormData : prevStateOrFormData;
   const id = data?.get?.("id")?.toString();
   const nama = data?.get?.("nama")?.toString()?.trim() || "";
-  const hargaRaw = data?.get?.("harga")?.toString() || "0";
-  const harga = parseInt(hargaRaw, 10);
+  const hargaRaw = data?.get?.("harga")?.toString()?.trim() || "";
   const kategori = data?.get?.("kategori")?.toString()?.trim() || "";
   const foto_url = data?.get?.("foto_url")?.toString()?.trim() || "";
   const deskripsi = data?.get?.("deskripsi")?.toString()?.trim() || "";
 
+  const values = { id, nama, harga: hargaRaw, kategori, foto_url, deskripsi };
+  const fieldErrors = {};
+
   if (!id) {
-    return { error: "ID produk tidak valid." };
+    return { error: "ID produk tidak valid.", values };
   }
 
   if (!nama) {
-    return { error: "Nama produk wajib diisi." };
+    fieldErrors.nama = "Nama produk wajib diisi.";
   }
 
-  if (isNaN(harga) || harga < 0) {
-    return { error: "Harga harus berupa angka positif." };
+  const hargaNum = Number(hargaRaw);
+  if (!hargaRaw || isNaN(hargaNum) || hargaNum < 0) {
+    fieldErrors.harga = "Harga harus berupa angka positif.";
   }
+
+  if (Object.keys(fieldErrors).length > 0) {
+    return {
+      error: "Terdapat data yang belum sesuai. Silakan periksa formulir.",
+      errors: fieldErrors,
+      values,
+    };
+  }
+
+  const harga = Math.floor(hargaNum);
 
   const supabase = await buatKoneksiSesi();
   const {
@@ -146,7 +172,7 @@ export async function ubahProduk(prevStateOrFormData, maybeFormData) {
   } = await supabase.auth.getUser();
 
   if (userError || !user) {
-    return { error: "Akses ditolak. Anda harus login terlebih dahulu." };
+    return { error: "Akses ditolak. Anda harus login terlebih dahulu.", values };
   }
 
   const { error: updateError } = await supabase
@@ -161,7 +187,7 @@ export async function ubahProduk(prevStateOrFormData, maybeFormData) {
     .eq("id", id);
 
   if (updateError) {
-    return { error: updateError.message || "Gagal mengubah produk." };
+    return { error: updateError.message || "Gagal mengubah produk.", values };
   }
 
   redirect("/admin");

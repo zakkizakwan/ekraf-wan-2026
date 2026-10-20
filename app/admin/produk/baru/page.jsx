@@ -19,7 +19,12 @@ export default function HalamanTambahProduk() {
         </div>
       )}
 
-      <FormProduk action={formAction} labelTombol="Simpan produk" />
+      <FormProduk
+        action={formAction}
+        labelTombol="Simpan produk"
+        errors={state?.errors}
+        values={state?.values}
+      />
     </div>
   );
 }
