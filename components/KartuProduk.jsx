@@ -3,12 +3,18 @@
 import Link from "next/link";
 import { formatRupiah } from "@/lib/format";
 import { useKeranjang } from "@/components/KeranjangBelanja";
+import { TombolFavorit } from "@/components/FavoritContext";
 
 export default function KartuProduk({ produk }) {
   const { tambahItem } = useKeranjang();
 
   return (
     <div className="group relative flex flex-col overflow-hidden rounded-2xl border border-garis bg-latar transition-shadow hover:shadow-md">
+      {/* US-24: Tombol Favorit */}
+      <div className="absolute right-2 top-2 z-10 rounded-full bg-latar/80 p-1 backdrop-blur-xs shadow-xs">
+        <TombolFavorit id={produk.id} nama={produk.nama} />
+      </div>
+
       <Link href={`/produk/${produk.id}`} className="flex flex-col">
         <img
           src={produk.foto_url}

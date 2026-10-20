@@ -104,6 +104,10 @@ Catat prompt penting selama membangun aplikasi: apa yang kamu minta, hasilnya, d
 - **Fitur:** Tombol bagikan produk di halaman detail menggunakan Web Share API dan Clipboard API.
 - **Hasil:** Pengunjung dapat membagikan produk atau menyalin link produk dengan umpan balik visual "Link tersalin ke clipboard!".
 
+### US-24 Favorit Tersimpan di Browser
+- **Fitur:** Menandai produk favorit dengan tombol ikon hati di kartu produk & detail produk, tersimpan di `localStorage`, serta halaman khusus `/favorit` yang menampilkan seluruh produk yang disukai.
+- **Hasil:** Pengunjung dapat melihat kembali daftar produk favoritnya secara persisten meskipun halaman dimuat ulang.
+
 ### US-25 Mode Gelap (Dark Mode)
 - **Fitur:** Tombol toggle mode gelap/terang di Header (`TombolTema`), variabel warna CSS `--color-*` untuk dark mode, dan penyimpanan preferensi di `localStorage` (`chat-theme`).
 - **Hasil:** Pengunjung dapat berpindah mode terang/gelap dengan nyaman dan seluruh teks serta elemen tetap memiliki kontras tinggi yang mudah dibaca.
