@@ -23,7 +23,15 @@ export default function KartuProduk({ produk }) {
           className="aspect-square w-full bg-permukaan object-cover"
         />
         <div className="flex flex-1 flex-col gap-1.5 p-3">
-          <p className="text-xs text-teks-lembut">{produk.kategori}</p>
+          {produk.kategori && (
+            <Link
+              href={`/kategori/${encodeURIComponent(produk.kategori)}`}
+              onClick={(e) => e.stopPropagation()}
+              className="self-start text-xs text-teks-lembut hover:text-utama hover:underline"
+            >
+              {produk.kategori}
+            </Link>
+          )}
           <h3 className="font-semibold leading-snug group-hover:text-utama line-clamp-1">{produk.nama}</h3>
           <p className="mt-1 self-start rounded-md bg-harga-latar px-2 py-0.5 text-sm font-bold text-harga">
             {formatRupiah(produk.harga)}

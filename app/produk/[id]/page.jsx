@@ -85,7 +85,16 @@ export default async function HalamanDetailProduk({ params }) {
             Kembali ke katalog
           </Link>
           <div className="flex items-center justify-between">
-            <p className="text-sm text-teks-lembut">{produk.kategori}</p>
+            {produk.kategori ? (
+              <Link
+                href={`/kategori/${encodeURIComponent(produk.kategori)}`}
+                className="text-sm font-semibold text-utama hover:underline"
+              >
+                {produk.kategori}
+              </Link>
+            ) : (
+              <span className="text-sm text-teks-lembut">Umum</span>
+            )}
             {/* US-24: Tombol Favorit di halaman detail */}
             <div className="flex items-center gap-1 text-xs text-teks-lembut">
               <span>Favorit:</span>

@@ -147,3 +147,7 @@ Catat prompt penting selama membangun aplikasi: apa yang kamu minta, hasilnya, d
 ### US-37 Bandingkan 2 Produk
 - **Fitur:** Pemilihan 2 produk untuk dikomparasi dengan tombol "+ Bandingkan" di setiap kartu produk, floating action bar untuk membuka komparasi, serta halaman `/bandingkan` yang menampilkan foto, kategori, harga, dan deskripsi kedua produk secara berdampingan.
 - **Hasil:** Pengunjung dapat membandingkan 2 produk secara berdampingan dan langsung memesan via WhatsApp. Memilih lebih dari 2 produk otomatis menampilkan pesan dan menggantikan pilihan pertama.
+
+### US-49 Halaman Khusus Per Kategori
+- **Fitur:** Membuat rute dinamis `/kategori/[slug]` yang mengambil produk sesuai kategori dari database Supabase, menangani kategori yang tidak ada dengan tampilan `notFound()`, serta menautkan teks kategori pada kartu produk dan halaman detail langsung ke halaman kategori tersebut. Rute kategori dinamis juga otomatis disertakan di `sitemap.xml`.
+- **Hasil:** Pengunjung dapat membuka tautan kategori yang rapi, membagikan link kategori spesifik, dan menjelajahi produk dalam kategori terkait.

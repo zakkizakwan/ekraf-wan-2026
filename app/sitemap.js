@@ -3,14 +3,15 @@ import { buatKoneksiServer } from "@/lib/supabase/server";
 export const dynamic = "force-dynamic";
 
 export default async function sitemap() {
-  const baseUrl = "https://ekraf-wan-2026-wakaranai31s-projects.vercel.app";
+  const baseUrl = "https://ekraf-wan-2026.vercel.app";
 
   let ruteProduk = [];
+  let ruteKategori = [];
   try {
     const supabase = buatKoneksiServer();
     const { data: daftarProduk } = await supabase
       .from("produk")
-      .select("id, created_at");
+      .select("id, kategori, created_at");
 
     if (daftarProduk) {
       ruteProduk = daftarProduk.map((p) => ({
@@ -18,6 +19,17 @@ export default async function sitemap() {
         lastModified: p.created_at ? new Date(p.created_at) : new Date(),
         changeFrequency: "weekly",
         priority: 0.8,
+      }));
+
+      const kategoriUnik = Array.from(
+        new Set(daftarProduk.map((p) => p.kategori).filter(Boolean))
+      );
+
+      ruteKategori = kategoriUnik.map((kat) => ({
+        url: `${baseUrl}/kategori/${encodeURIComponent(kat)}`,
+        lastModified: new Date(),
+        changeFrequency: "weekly",
+        priority: 0.7,
       }));
     }
   } catch (err) {
@@ -37,6 +49,7 @@ export default async function sitemap() {
       changeFrequency: "monthly",
       priority: 0.5,
     },
+    ...ruteKategori,
     ...ruteProduk,
   ];
 }
