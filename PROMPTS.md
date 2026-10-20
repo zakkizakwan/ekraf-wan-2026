@@ -92,6 +92,10 @@ Catat prompt penting selama membangun aplikasi: apa yang kamu minta, hasilnya, d
 - **Fitur:** Menampilkan produk dari kategori yang sama di halaman detail produk dari database (mengecualikan produk yang sedang aktif).
 - **Hasil:** Bagian "Produk terkait" otomatis muncul di bawah detail produk menggunakan komponen `KartuProduk`.
 
+### US-22 Halaman Tentang dan Kontak Toko
+- **Fitur:** Membuat halaman profil `/tentang` berisi deskripsi usaha, alamat, jam operasional, dan tombol kontak WhatsApp, serta menautkannya di Header & Footer.
+- **Hasil:** Halaman `/tentang` dapat diakses dari navigasi atas maupun footer dengan informasi identitas toko yang lengkap.
+
 ### US-23 Bagikan atau Salin Link Produk
 - **Fitur:** Tombol bagikan produk di halaman detail menggunakan Web Share API dan Clipboard API.
 - **Hasil:** Pengunjung dapat membagikan produk atau menyalin link produk dengan umpan balik visual "Link tersalin ke clipboard!".
