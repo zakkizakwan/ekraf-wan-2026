@@ -8,6 +8,7 @@ export default async function HalamanKatalog({ searchParams }) {
   const params = await searchParams;
   const kataKunci = (params?.q || "").trim();
   const kategoriAktif = (params?.kategori || "").trim();
+  const urutan = (params?.urut || "terbaru").trim();
 
   let daftarProduk = [];
   let daftarKategori = [];
@@ -38,7 +39,17 @@ export default async function HalamanKatalog({ searchParams }) {
       query = query.ilike("nama", `%${kataKunci}%`);
     }
 
-    const { data, error } = await query.order("id", { ascending: true });
+    // US-15: Pengurutan di tingkat database
+    if (urutan === "termurah") {
+      query = query.order("harga", { ascending: true });
+    } else if (urutan === "termahal") {
+      query = query.order("harga", { ascending: false });
+    } else {
+      // Default terbaru
+      query = query.order("id", { ascending: false });
+    }
+
+    const { data, error } = await query;
 
     if (error) {
       pesanError = error.message;
@@ -65,32 +76,49 @@ export default async function HalamanKatalog({ searchParams }) {
             Produk kami
           </h2>
 
-          {/* Form Pencarian */}
-          <form method="GET" action="/" className="flex w-full sm:w-72 items-center gap-2">
-            {kategoriAktif && (
-              <input type="hidden" name="kategori" value={kategoriAktif} />
-            )}
-            <input
-              type="search"
-              name="q"
-              defaultValue={kataKunci}
-              placeholder="Cari nama produk..."
-              className="w-full rounded-xl border border-garis bg-permukaan px-3 py-2 text-sm placeholder:text-teks-lembut focus:bg-latar focus:outline-none focus:ring-2 focus:ring-utama"
-            />
-            <button
-              type="submit"
-              className="rounded-xl bg-utama px-4 py-2 text-sm font-semibold text-white hover:bg-utama-gelap"
-            >
-              Cari
-            </button>
-          </form>
+          <div className="flex flex-wrap items-center gap-3">
+            {/* Form Pencarian & Urutan */}
+            <form method="GET" action="/" className="flex flex-wrap items-center gap-2">
+              {kategoriAktif && (
+                <input type="hidden" name="kategori" value={kategoriAktif} />
+              )}
+              <input
+                type="search"
+                name="q"
+                defaultValue={kataKunci}
+                placeholder="Cari nama produk..."
+                className="w-48 sm:w-60 rounded-xl border border-garis bg-permukaan px-3 py-2 text-sm placeholder:text-teks-lembut focus:bg-latar focus:outline-none focus:ring-2 focus:ring-utama"
+              />
+              
+              {/* Dropdown Urutkan */}
+              <select
+                name="urut"
+                defaultValue={urutan}
+                className="rounded-xl border border-garis bg-permukaan px-3 py-2 text-sm text-teks focus:bg-latar focus:outline-none focus:ring-2 focus:ring-utama"
+              >
+                <option value="terbaru">Terbaru</option>
+                <option value="termurah">Termurah</option>
+                <option value="termahal">Termahal</option>
+              </select>
+
+              <button
+                type="submit"
+                className="rounded-xl bg-utama px-4 py-2 text-sm font-semibold text-white hover:bg-utama-gelap"
+              >
+                Terapkan
+              </button>
+            </form>
+          </div>
         </div>
 
         {/* Filter Kategori */}
         {daftarKategori.length > 0 && (
           <div className="flex flex-wrap items-center gap-2">
             <a
-              href={kataKunci ? `/?q=${encodeURIComponent(kataKunci)}` : "/"}
+              href={`/?${new URLSearchParams({
+                ...(kataKunci ? { q: kataKunci } : {}),
+                ...(urutan !== "terbaru" ? { urut: urutan } : {}),
+              }).toString()}`}
               className={`rounded-full px-3.5 py-1 text-xs font-semibold transition-colors ${
                 !kategoriAktif
                   ? "bg-utama text-white"
@@ -100,14 +128,16 @@ export default async function HalamanKatalog({ searchParams }) {
               Semua
             </a>
             {daftarKategori.map((kategori) => {
-              const url = `/?kategori=${encodeURIComponent(kategori)}${
-                kataKunci ? `&q=${encodeURIComponent(kataKunci)}` : ""
-              }`;
+              const queryParams = new URLSearchParams({
+                kategori,
+                ...(kataKunci ? { q: kataKunci } : {}),
+                ...(urutan !== "terbaru" ? { urut: urutan } : {}),
+              }).toString();
               const aktif = kategoriAktif === kategori;
               return (
                 <a
                   key={kategori}
-                  href={url}
+                  href={`/?${queryParams}`}
                   className={`rounded-full px-3.5 py-1 text-xs font-semibold transition-colors ${
                     aktif
                       ? "bg-utama text-white"

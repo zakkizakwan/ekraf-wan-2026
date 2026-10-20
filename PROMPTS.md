@@ -79,3 +79,7 @@ Catat prompt penting selama membangun aplikasi: apa yang kamu minta, hasilnya, d
 ### US-13 PWA (Progressive Web App)
 - **Fitur:** Web app manifest dinamis di `app/manifest.js` yang merujuk ikon `public/icons/icon-192.png` & `public/icons/icon-512.png`.
 - **Hasil:** Aplikasi dapat di-install ke layar utama HP/desktop sebagai Progressive Web App dengan rute `/manifest.webmanifest`.
+
+### US-15 Urutkan Produk
+- **Fitur:** Pilihan urutan produk (Termurah, Termahal, Terbaru) dengan dropdown di katalog.
+- **Hasil:** Pengurutan diterapkan langsung pada query database Supabase (`order('harga', { ascending })`).
