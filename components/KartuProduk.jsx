@@ -4,6 +4,7 @@ import Link from "next/link";
 import { formatRupiah } from "@/lib/format";
 import { useKeranjang } from "@/components/KeranjangBelanja";
 import { TombolFavorit } from "@/components/FavoritContext";
+import { TombolBandingkan } from "@/components/BandingkanContext";
 
 export default function KartuProduk({ produk }) {
   const { tambahItem } = useKeranjang();
@@ -30,14 +31,15 @@ export default function KartuProduk({ produk }) {
         </div>
       </Link>
 
-      <div className="p-3 pt-0">
+      <div className="flex items-center gap-2 p-3 pt-0">
         <button
           type="button"
           onClick={() => tambahItem(produk, 1)}
-          className="flex w-full items-center justify-center gap-1 rounded-xl border border-garis bg-permukaan py-1.5 text-xs font-semibold text-teks transition-colors hover:border-utama hover:bg-utama hover:text-white"
+          className="flex flex-1 items-center justify-center gap-1 rounded-xl border border-garis bg-permukaan py-1.5 text-xs font-semibold text-teks transition-colors hover:border-utama hover:bg-utama hover:text-white"
         >
           <span>+ Keranjang</span>
         </button>
+        <TombolBandingkan id={produk.id} />
       </div>
     </div>
   );

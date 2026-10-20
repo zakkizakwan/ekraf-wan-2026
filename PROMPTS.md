@@ -143,3 +143,7 @@ Catat prompt penting selama membangun aplikasi: apa yang kamu minta, hasilnya, d
 ### US-36 Terakhir Dilihat
 - **Fitur:** Menyimpan riwayat produk yang dibuka di `localStorage` browser (maksimal 4 item) melalui tracker di halaman detail, serta menampilkan bagian "Terakhir dilihat" di beranda jika ada data riwayat.
 - **Hasil:** Pengunjung dapat melihat kembali produk-produk yang baru saja dibuka dengan cepat langsung di beranda katalog.
+
+### US-37 Bandingkan 2 Produk
+- **Fitur:** Pemilihan 2 produk untuk dikomparasi dengan tombol "+ Bandingkan" di setiap kartu produk, floating action bar untuk membuka komparasi, serta halaman `/bandingkan` yang menampilkan foto, kategori, harga, dan deskripsi kedua produk secara berdampingan.
+- **Hasil:** Pengunjung dapat membandingkan 2 produk secara berdampingan dan langsung memesan via WhatsApp. Memilih lebih dari 2 produk otomatis menampilkan pesan dan menggantikan pilihan pertama.
