@@ -115,3 +115,7 @@ Catat prompt penting selama membangun aplikasi: apa yang kamu minta, hasilnya, d
 ### US-30 Dashboard Ringkasan Admin
 - **Fitur:** Menampilkan kartu ringkasan total jumlah produk dan jumlah produk per kategori di dashboard `/admin` langsung dari data database Supabase.
 - **Hasil:** Admin dapat melihat statistik katalog produk sekilas setelah login dengan proteksi rute `proxy.js`.
+
+### US-35 Ekspor Produk ke CSV
+- **Fitur:** Endpoint Route Handler `/admin/produk/ekspor` di server yang memeriksa otentikasi login admin, meng-escape karakter khusus koma/kutip, dan mengunduh seluruh produk dalam format `.csv`.
+- **Hasil:** Tombol "Ekspor CSV" di halaman admin dapat mengunduh data katalog produk yang siap dibuka di Microsoft Excel atau Google Sheets.

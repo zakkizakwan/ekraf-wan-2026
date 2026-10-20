@@ -58,8 +58,18 @@ export default async function HalamanAdmin() {
 
       <div className="flex flex-wrap items-center justify-between gap-3 border-t border-garis pt-6">
         <h1 className="text-2xl font-extrabold">Daftar Produk</h1>
-        {/* US-08: tambah produk */}
-        <Tombol href="/admin/produk/baru">Tambah produk</Tombol>
+        <div className="flex items-center gap-3">
+          {/* US-35: Ekspor produk ke CSV */}
+          <a
+            href="/admin/produk/ekspor"
+            download
+            className="rounded-xl border border-garis bg-permukaan px-4 py-2 text-sm font-semibold text-teks hover:border-utama hover:text-utama"
+          >
+            Ekspor CSV
+          </a>
+          {/* US-08: tambah produk */}
+          <Tombol href="/admin/produk/baru">Tambah produk</Tombol>
+        </div>
       </div>
 
       {pesanError ? (
