@@ -111,3 +111,7 @@ Catat prompt penting selama membangun aplikasi: apa yang kamu minta, hasilnya, d
 ### US-28 Halaman 404 dan Loading Kustom
 - **Fitur:** Halaman 404 kustom di `app/not-found.jsx` dengan link kembali ke katalog, serta implementasi `loading.jsx` skeleton animasi di katalog utama dan halaman detail produk.
 - **Hasil:** Pengalaman pengguna saat menunggu pengambilan data server menjadi mulus dengan skeleton loading responsif.
+
+### US-30 Dashboard Ringkasan Admin
+- **Fitur:** Menampilkan kartu ringkasan total jumlah produk dan jumlah produk per kategori di dashboard `/admin` langsung dari data database Supabase.
+- **Hasil:** Admin dapat melihat statistik katalog produk sekilas setelah login dengan proteksi rute `proxy.js`.
