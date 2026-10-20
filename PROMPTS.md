@@ -71,3 +71,7 @@ Catat prompt penting selama membangun aplikasi: apa yang kamu minta, hasilnya, d
 ### US-11 Filter Kategori dan Pencarian Produk
 - **Fitur:** Pencarian nama produk dengan `ilike` dan filter kategori dinamis di beranda katalog.
 - **Hasil:** Pengunjung dapat mencari nama produk serta menyaring berdasarkan kategori produk secara langsung di sisi server.
+
+### US-12 Pilih Jumlah atau Varian
+- **Fitur:** Pilihan jumlah (quantity counter) dan catatan varian di halaman detail produk.
+- **Hasil:** Pengunjung dapat memilih jumlah pesanan dan varian/catatan, yang otomatis terhitung total harga dan tercantum di teks pesan WhatsApp.
