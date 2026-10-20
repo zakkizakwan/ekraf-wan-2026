@@ -104,6 +104,10 @@ Catat prompt penting selama membangun aplikasi: apa yang kamu minta, hasilnya, d
 - **Fitur:** Tombol bagikan produk di halaman detail menggunakan Web Share API dan Clipboard API.
 - **Hasil:** Pengunjung dapat membagikan produk atau menyalin link produk dengan umpan balik visual "Link tersalin ke clipboard!".
 
+### US-25 Mode Gelap (Dark Mode)
+- **Fitur:** Tombol toggle mode gelap/terang di Header (`TombolTema`), variabel warna CSS `--color-*` untuk dark mode, dan penyimpanan preferensi di `localStorage` (`chat-theme`).
+- **Hasil:** Pengunjung dapat berpindah mode terang/gelap dengan nyaman dan seluruh teks serta elemen tetap memiliki kontras tinggi yang mudah dibaca.
+
 ### US-26 Metadata SEO dan Open Graph
 - **Fitur:** Implementasi `generateMetadata` dinamis di `app/produk/[id]/page.jsx` untuk judul, deskripsi, serta Open Graph meta tags (og:title, og:description, og:image).
 - **Hasil:** Setiap halaman detail produk memiliki metadata SEO dan preview kartu Open Graph yang sesuai dengan data produk dari database.

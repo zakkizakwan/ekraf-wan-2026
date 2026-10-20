@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { toko } from "@/lib/toko";
 import { useKeranjang } from "@/components/KeranjangBelanja";
+import TombolTema from "@/components/TombolTema";
 
 export default function Header() {
   const { totalItem, setTerbuka } = useKeranjang();
@@ -13,7 +14,7 @@ export default function Header() {
         <Link href="/" className="text-lg font-extrabold tracking-tight text-utama">
           {toko.nama}
         </Link>
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-3 sm:gap-5">
           <nav className="flex items-center gap-4 text-sm font-semibold text-teks-lembut">
             <Link href="/" className="hover:text-utama">
               Katalog
@@ -22,6 +23,9 @@ export default function Header() {
               Tentang
             </Link>
           </nav>
+
+          {/* US-25: Tombol Ganti Mode Gelap/Terang */}
+          <TombolTema />
 
           {/* Tombol Keranjang Belanja */}
           <button
