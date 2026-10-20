@@ -119,3 +119,7 @@ Catat prompt penting selama membangun aplikasi: apa yang kamu minta, hasilnya, d
 ### US-35 Ekspor Produk ke CSV
 - **Fitur:** Endpoint Route Handler `/admin/produk/ekspor` di server yang memeriksa otentikasi login admin, meng-escape karakter khusus koma/kutip, dan mengunduh seluruh produk dalam format `.csv`.
 - **Hasil:** Tombol "Ekspor CSV" di halaman admin dapat mengunduh data katalog produk yang siap dibuka di Microsoft Excel atau Google Sheets.
+
+### US-36 Terakhir Dilihat
+- **Fitur:** Menyimpan riwayat produk yang dibuka di `localStorage` browser (maksimal 4 item) melalui tracker di halaman detail, serta menampilkan bagian "Terakhir dilihat" di beranda jika ada data riwayat.
+- **Hasil:** Pengunjung dapat melihat kembali produk-produk yang baru saja dibuka dengan cepat langsung di beranda katalog.

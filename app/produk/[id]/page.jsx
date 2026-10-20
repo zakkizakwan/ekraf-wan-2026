@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import TombolWhatsApp from "@/components/TombolWhatsApp";
 import TombolBagikan from "@/components/TombolBagikan";
+import { CatatRiwayatLihat } from "@/components/TerakhirDilihat";
 import KartuProduk from "@/components/KartuProduk";
 import { buatKoneksiServer } from "@/lib/supabase/server";
 import { formatRupiah } from "@/lib/format";
@@ -91,6 +92,8 @@ export default async function HalamanDetailProduk({ params }) {
           <TombolWhatsApp produk={produk} />
           {/* US-23: Tombol Bagikan / Salin link */}
           <TombolBagikan namaProduk={produk.nama} />
+          {/* US-36: Catat riwayat produk yang sedang dilihat */}
+          <CatatRiwayatLihat produk={produk} />
         </div>
       </article>
 
