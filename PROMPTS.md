@@ -91,3 +91,7 @@ Catat prompt penting selama membangun aplikasi: apa yang kamu minta, hasilnya, d
 ### US-17 Produk Terkait di Halaman Detail
 - **Fitur:** Menampilkan produk dari kategori yang sama di halaman detail produk dari database (mengecualikan produk yang sedang aktif).
 - **Hasil:** Bagian "Produk terkait" otomatis muncul di bawah detail produk menggunakan komponen `KartuProduk`.
+
+### US-23 Bagikan atau Salin Link Produk
+- **Fitur:** Tombol bagikan produk di halaman detail menggunakan Web Share API dan Clipboard API.
+- **Hasil:** Pengunjung dapat membagikan produk atau menyalin link produk dengan umpan balik visual "Link tersalin ke clipboard!".
