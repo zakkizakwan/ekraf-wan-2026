@@ -77,4 +77,4 @@ Urutan yang disarankan: US-01, US-02, US-03, US-04, US-05, US-06, lalu fitur bon
 - **Nama usaha: Toko Apapun Semua Ada**
 - **Pembuat: Zakki Zakwan TRPL 3C**
 - **Link aplikasi: https://ekraf-wan-2026-wakaranai31s-projects.vercel.app/**
-- **Fitur bonus yang dikerjakan: US-07, US-08, US-09, US-10, US-11, US-12, US-13, US-15, US-16, US-17, US-22, US-23, US-26, US-27**
+- **Fitur bonus yang dikerjakan: US-07, US-08, US-09, US-10, US-11, US-12, US-13, US-15, US-16, US-17, US-22, US-23, US-26, US-27, US-28**

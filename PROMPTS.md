@@ -107,3 +107,7 @@ Catat prompt penting selama membangun aplikasi: apa yang kamu minta, hasilnya, d
 ### US-27 sitemap.xml dan robots.txt
 - **Fitur:** Membuat `app/sitemap.js` yang menarik seluruh URL produk dari database Supabase secara dinamis, dan `app/robots.js` yang valid mengarah ke sitemap serta memblokir perayapan bot ke rute `/admin/`.
 - **Hasil:** Rute `/sitemap.xml` dan `/robots.txt` aktif secara otomatis dan valid.
+
+### US-28 Halaman 404 dan Loading Kustom
+- **Fitur:** Halaman 404 kustom di `app/not-found.jsx` dengan link kembali ke katalog, serta implementasi `loading.jsx` skeleton animasi di katalog utama dan halaman detail produk.
+- **Hasil:** Pengalaman pengguna saat menunggu pengambilan data server menjadi mulus dengan skeleton loading responsif.
