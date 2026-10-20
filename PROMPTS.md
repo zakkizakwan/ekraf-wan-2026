@@ -99,3 +99,7 @@ Catat prompt penting selama membangun aplikasi: apa yang kamu minta, hasilnya, d
 ### US-23 Bagikan atau Salin Link Produk
 - **Fitur:** Tombol bagikan produk di halaman detail menggunakan Web Share API dan Clipboard API.
 - **Hasil:** Pengunjung dapat membagikan produk atau menyalin link produk dengan umpan balik visual "Link tersalin ke clipboard!".
+
+### US-26 Metadata SEO dan Open Graph
+- **Fitur:** Implementasi `generateMetadata` dinamis di `app/produk/[id]/page.jsx` untuk judul, deskripsi, serta Open Graph meta tags (og:title, og:description, og:image).
+- **Hasil:** Setiap halaman detail produk memiliki metadata SEO dan preview kartu Open Graph yang sesuai dengan data produk dari database.

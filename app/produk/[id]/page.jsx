@@ -6,7 +6,42 @@ import KartuProduk from "@/components/KartuProduk";
 import { buatKoneksiServer } from "@/lib/supabase/server";
 import { formatRupiah } from "@/lib/format";
 
+import { toko } from "@/lib/toko";
+
 export const dynamic = "force-dynamic";
+
+// US-26: Metadata SEO dan Open Graph
+export async function generateMetadata({ params }) {
+  const { id } = await params;
+  try {
+    const supabase = buatKoneksiServer();
+    const { data: produk } = await supabase
+      .from("produk")
+      .select("nama, deskripsi, foto_url")
+      .eq("id", id)
+      .maybeSingle();
+
+    if (!produk) {
+      return {
+        title: `Produk Tidak Ditemukan — ${toko.nama}`,
+      };
+    }
+
+    return {
+      title: `${produk.nama} — ${toko.nama}`,
+      description: produk.deskripsi || `${produk.nama} di ${toko.nama}`,
+      openGraph: {
+        title: produk.nama,
+        description: produk.deskripsi || `${produk.nama} di ${toko.nama}`,
+        images: produk.foto_url ? [{ url: produk.foto_url, alt: produk.nama }] : [],
+      },
+    };
+  } catch {
+    return {
+      title: `Detail Produk — ${toko.nama}`,
+    };
+  }
+}
 
 export default async function HalamanDetailProduk({ params }) {
   const { id } = await params;
